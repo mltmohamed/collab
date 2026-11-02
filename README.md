@@ -7,7 +7,17 @@ Projet collaboratif — en cours de démarrage.
 ```bash
 git clone https://github.com/mltmohamed/collab.git
 cd collab
+npm install
+npm run dev
 ```
+
+Autres commandes :
+
+- `npm run build` — build de production (dans `dist/`)
+- `npm run preview` — prévisualiser le build
+- `npm run lint` — vérifier le code
+
+Stack : React 19 + Vite.
 
 ## Contribuer
 
