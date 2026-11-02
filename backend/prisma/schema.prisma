@@ -1,0 +1,47 @@
+// Le schéma décrit les tables de la base de données.
+// Après une modification : npm run db:migrate
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// Un produit qu'on peut louer (outil, matériel, mobilier…)
+model Produit {
+  id          Int        @id @default(autoincrement())
+  nom         String
+  description String?
+  prixJour    Float // prix de location par jour
+  stock       Int        @default(1) // nombre d'exemplaires disponibles
+  creeLe      DateTime   @default(now())
+  locations   Location[]
+}
+
+// Une personne qui loue des produits
+model Client {
+  id        Int        @id @default(autoincrement())
+  nom       String
+  telephone String
+  email     String?    @unique
+  creeLe    DateTime   @default(now())
+  locations Location[]
+}
+
+// Une location : un client loue un produit entre deux dates
+model Location {
+  id        Int      @id @default(autoincrement())
+  dateDebut DateTime
+  dateFin   DateTime
+  statut    String   @default("EN_COURS") // EN_COURS ou RENDUE
+  produitId Int
+  produit   Produit  @relation(fields: [produitId], references: [id])
+  clientId  Int
+  client    Client   @relation(fields: [clientId], references: [id])
+  creeLe    DateTime @default(now())
+}
