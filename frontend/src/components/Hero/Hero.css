@@ -1,0 +1,90 @@
+.hero { background: #f6f6f9; }
+
+.hero__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-3);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.hero__title {
+  margin: 0 0 var(--space-3);
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.hero__label { margin: 0 0 var(--space-1); font-size: 14px; }
+
+.hero__fields { display: flex; gap: var(--space-1); margin-bottom: var(--space-2); }
+
+.field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-light);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius-pill);
+  padding: 0 14px;
+  height: 40px;
+}
+.field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+}
+.field:focus-within { border-color: var(--color-dark); }
+.field svg { color: rgba(0, 0, 0, 0.6); }
+
+.hero__cta {
+  width: 100%;
+  max-width: 360px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-dark);
+  font-weight: 700;
+  font-size: 15px;
+}
+.hero__cta:hover { filter: brightness(0.95); }
+
+/* Collage */
+.hero__collage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 110px);
+  gap: var(--space-2);
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: #e9e9f0;
+  font-size: 44px;
+  overflow: hidden;
+}
+.tile img { width: 100%; height: 100%; object-fit: contain; }
+.tile--accent { background: var(--color-primary); }
+.tile--large { grid-column: span 2; grid-row: span 2; background: transparent; font-size: 110px; }
+
+.tile--building { grid-column: 1; grid-row: 1; }
+.tile--scooter  { grid-column: 2; grid-row: 1; }
+.tile--drill    { grid-column: 3; grid-row: 1 / span 2; }
+.tile--car      { grid-column: 1 / span 2; grid-row: 2 / span 2; }
+.tile--projector{ grid-column: 3; grid-row: 3; }
+.tile--toolbox  { display: none; } /* remis en place avec les vraies images */
+
+@media (max-width: 800px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__collage { grid-template-rows: repeat(3, 90px); }
+}

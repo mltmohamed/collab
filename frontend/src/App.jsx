@@ -1,11 +1,13 @@
 import "./styles/tokens.css";
 import Header from "./components/Header/Header";
+import Hero from "./components/Hero/Hero";
 
 export default function App() {
   return (
     <>
       <Header />
-      {/* Étape 2 : Hero */}
+      <Hero onSearch={(params) => console.log("Recherche :", params)} />
+      {/* Étape 3 : barre de filtre + catégories */}
     </>
   );
 }
