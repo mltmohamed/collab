@@ -1,0 +1,50 @@
+.filterbar {
+  max-width: 580px;
+  margin: -28px auto 0; /* chevauche le bas du Hero */
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 10px;
+  background: var(--color-light);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.filterbar__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.filterbar input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: inherit;
+  font-size: 15px;
+}
+
+.filterbar button {
+  flex: none;
+  height: 36px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-dark);
+  font-weight: 700;
+}
+.filterbar button:hover { filter: brightness(0.95); }
+.filterbar:focus-within { border-color: var(--color-dark); }
+
+@media (max-width: 640px) {
+  .filterbar { margin-inline: var(--space-2); }
+}
