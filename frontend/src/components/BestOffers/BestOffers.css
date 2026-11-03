@@ -1,0 +1,44 @@
+.best {
+  max-width: var(--container);
+  margin: var(--space-4) auto;
+  padding: 0 var(--space-3);
+}
+
+.best__title {
+  margin: 0 0 var(--space-3);
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.best__tabs {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto var(--space-4);
+  padding: 4px;
+  gap: 4px;
+  overflow-x: auto;
+  background: #eeeef6;
+  border-radius: var(--radius-pill);
+}
+
+.best__tabs button {
+  flex: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  background: none;
+  color: var(--color-dark);
+  font-size: 13px;
+  font-weight: 600;
+}
+.best__tabs button.is-active { background: var(--color-dark); color: var(--color-light); }
+
+.best__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
+.best__empty { text-align: center; color: rgba(0, 0, 0, 0.6); }
