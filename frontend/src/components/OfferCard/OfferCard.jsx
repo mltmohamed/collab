@@ -1,12 +1,28 @@
+import { useState } from "react";
 import "./OfferCard.css";
 
 // Carte réutilisable (Meilleures Offres + résultats de recherche)
 // offer = { id, title, image?, emoji?, features: [{ label, emoji? }], price, unit? }
-export default function OfferCard({ offer, onReserve = () => {} }) {
+export default function OfferCard({
+  offer,
+  onReserve = () => {},
+  onToggleFavorite = () => {}, // (id, isFavorite)
+}) {
+  const [fav, setFav] = useState(Boolean(offer.favorite));
   const { title, image, emoji, features = [], price, unit = "/jour" } = offer;
 
   return (
     <article className="offer">
+      <button
+        type="button"
+        className={`offer__fav${fav ? " is-on" : ""}`}
+        aria-pressed={fav}
+        aria-label={fav ? "Retirer des favoris" : "Ajouter aux favoris"}
+        onClick={() => { setFav(!fav); onToggleFavorite(offer.id, !fav); }}
+      >
+        {fav ? "♥" : "♡"}
+      </button>
+
       <div className="offer__media">
         {image ? <img src={image} alt={title} /> : <span aria-hidden="true">{emoji}</span>}
       </div>

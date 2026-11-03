@@ -1,16 +1,6 @@
 import { useState } from "react";
 import "./Hero.css";
 
-// Remplace `emoji` par `src: "/images/xxx.png"` quand tu auras les vraies images
-const DEFAULT_COLLAGE = [
-  { id: "building", emoji: "🏢", accent: true },
-  { id: "scooter", emoji: "🛵" },
-  { id: "drill", emoji: "🔨" },
-  { id: "car", emoji: "🚗", large: true },
-  { id: "projector", emoji: "📽️" },
-  { id: "toolbox", emoji: "🧰", accent: true },
-];
-
 const CalendarIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
     <rect x="3" y="5" width="18" height="16" rx="3" /><path d="M3 10h18M8 3v4M16 3v4" />
@@ -25,11 +15,12 @@ const PinIcon = () => (
 
 export default function Hero({
   totalItems = "10 000",
-  collage = DEFAULT_COLLAGE,
-  onSearch = () => {}, // à brancher avec l'API : reçoit { dates, location }
+  image = "/images/hero-voiture.png", // grande image à droite (fond transparent conseillé)
+  onSearch = () => {}, // reçoit { dates, location } (touche Entrée dans un champ)
 }) {
   const [dates, setDates] = useState("");
   const [location, setLocation] = useState("");
+  const [imageFailed, setImageFailed] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,19 +62,15 @@ export default function Hero({
               <PinIcon />
             </label>
           </div>
-
-          <button type="submit" className="hero__cta">Rechercher Maintenant</button>
+          <button type="submit" hidden>Rechercher</button>
         </form>
 
-        <div className="hero__collage" aria-hidden="true">
-          {collage.map((item) => (
-            <div
-              key={item.id}
-              className={`tile tile--${item.id}${item.accent ? " tile--accent" : ""}${item.large ? " tile--large" : ""}`}
-            >
-              {item.src ? <img src={item.src} alt="" /> : <span>{item.emoji}</span>}
-            </div>
-          ))}
+        <div className="hero__image" aria-hidden="true">
+          {imageFailed ? (
+            <span>🚗</span>
+          ) : (
+            <img src={image} alt="" onError={() => setImageFailed(true)} />
+          )}
         </div>
       </div>
     </section>

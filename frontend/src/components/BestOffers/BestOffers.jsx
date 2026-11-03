@@ -15,7 +15,7 @@ const DEFAULT_TABS = [
 // `category` sert au filtrage par onglet ; `popular` alimente l'onglet "Populaire".
 const DEFAULT_OFFERS = [
   {
-    id: 1, category: "logements", popular: true, emoji: "🏢",
+    id: 1, category: "logements", popular: true, emoji: "🏢", image: "/images/immobilier.jpg",
     title: "Studio Centre-Ville", price: 250,
     features: [
       { label: "1 Chambre", emoji: "🛏️" },
@@ -24,7 +24,7 @@ const DEFAULT_OFFERS = [
     ],
   },
   {
-    id: 2, category: "mobilite", popular: true, emoji: "🚲",
+    id: 2, category: "mobilite", popular: true, emoji: "🚲", image: "/images/velo.jpg",
     title: "Vélo Électrique", price: 45,
     features: [
       { label: "Autonomie 80km", emoji: "🔋" },
@@ -32,7 +32,7 @@ const DEFAULT_OFFERS = [
     ],
   },
   {
-    id: 3, category: "outils-pro", popular: true, emoji: "🔨",
+    id: 3, category: "outils-pro", popular: true, emoji: "🔨", image: "/images/perforateur.jpg",
     title: "Marteau-Piqueur Pro", price: 90,
     features: [
       { label: "Puissance Industrielle", emoji: "⚡" },
@@ -40,7 +40,7 @@ const DEFAULT_OFFERS = [
     ],
   },
   {
-    id: 4, category: "tech-evenement", popular: true, emoji: "🎥",
+    id: 4, category: "tech-evenement", popular: true, emoji: "🎥", image: "/images/camera-pro.jpg",
     title: "Caméra 4K Pro", price: 180,
     features: [
       { label: "Objectif interchangeable", emoji: "📷" },

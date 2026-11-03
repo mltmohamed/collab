@@ -37,7 +37,7 @@
   margin: var(--space-2) 0;
   font-size: 72px;
 }
-.result__media img { width: 100%; height: 100%; object-fit: contain; }
+.result__media img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-sm); }
 
 .result__specs {
   display: flex;

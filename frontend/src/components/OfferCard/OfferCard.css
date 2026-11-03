@@ -1,4 +1,5 @@
 .offer {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: var(--space-2);
@@ -10,11 +11,11 @@
 .offer__media {
   display: grid;
   place-items: center;
-  height: 110px;
+  height: 130px;
   margin-bottom: var(--space-2);
   font-size: 64px;
 }
-.offer__media img { width: 100%; height: 100%; object-fit: contain; }
+.offer__media img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-sm); }
 
 .offer__title { margin: 0 0 6px; font-size: 15px; font-weight: 700; }
 
@@ -49,3 +50,15 @@
   font-weight: 700;
 }
 .offer__btn:hover { filter: brightness(0.95); }
+
+.offer__fav {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: 0;
+  background: none;
+  font-size: 20px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.55);
+}
+.offer__fav.is-on { color: #e03131; }

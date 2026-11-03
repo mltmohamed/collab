@@ -18,9 +18,9 @@ export default function Header({
       <div className="header__inner">
         <a href="/" className="header__logo" aria-label="Accueil">
           <svg width="52" height="30" viewBox="0 0 52 30" aria-hidden="true">
-            <rect width="52" height="30" rx="15" fill="var(--color-primary)" />
-            <rect x="8" y="8" width="14" height="14" rx="7" fill="var(--color-dark)" />
-            <rect x="30" y="8" width="14" height="14" rx="7" fill="var(--color-dark)" />
+            <rect width="52" height="30" rx="15" fill="var(--color-dark)" />
+            <rect x="8" y="8" width="14" height="14" rx="7" fill="var(--color-primary)" />
+            <rect x="30" y="8" width="14" height="14" rx="7" fill="var(--color-primary)" />
           </svg>
         </a>
 
