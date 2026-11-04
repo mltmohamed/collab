@@ -1,33 +1,43 @@
 import { useState } from "react";
+import { MoreHorizontal } from "lucide-react";
+import SectionHeader from "../SectionHeader/SectionHeader";
 import "./Categories.css";
 
-// Images dans public/images/ (si le fichier manque, l'emoji s'affiche)
-// `color` = fond de la tuile derrière l'image. À remplacer plus tard par l'API.
+// Images dans public/images/. Si un fichier manque, l'emoji s'affiche.
+// Les ids correspondent à ceux du menu "Catégorie" du Hero.
 const DEFAULT_CATEGORIES = [
-  { id: "real-estate", label: "Real Estate", image: "/images/immobilier.jpg", emoji: "🏠", color: "#e4e4ee" },
-  { id: "mobility", label: "Mobility", image: "/images/velo.jpg", emoji: "🚲", color: "#e4e4ee" },
-  { id: "pro-tools", label: "Pro Tools", image: "/images/perforateur.jpg", emoji: "🔨", color: "var(--color-primary)" },
-  { id: "even-tech", label: "Even Tech", image: "/images/tech-manquante.jpg", emoji: "📽️", color: "#e4e4ee" },
-  { id: "tech-evenement", label: "Tech Événement", image: "/images/camera-reflex.jpg", emoji: "🎥", color: "#e4e4ee" },
-  { id: "camping", label: "Camping", image: "/images/camping.jpg", emoji: "⛺", color: "#d9ead3" },
+  { id: "immobilier", label: "Immobilier", image: "/images/immobilier.jpg", emoji: "🏢" },
+  { id: "mobilite", label: "Mobilité", image: "/images/velo.jpg", emoji: "🚲" },
+  { id: "outils-pro", label: "Outils Pro", image: "/images/perforateur.jpg", emoji: "🔨" },
+  { id: "evenementiel", label: "Événementiel", image: "/images/enceinte.jpg", emoji: "🔊" },
+  { id: "high-tech", label: "High-Tech", image: "/images/camera-reflex.jpg", emoji: "📷" },
+  { id: "camping", label: "Camping", image: "/images/camping.jpg", emoji: "⛺" },
+  { id: "maison-jardin", label: "Maison & Jardin", image: "/images/maison-jardin.jpg", emoji: "🪴" },
+  { id: "sports-loisirs", label: "Sports & Loisirs", image: "/images/sports-loisirs.jpg", emoji: "🎾" },
+  { id: "enfants-bebe", label: "Enfants & Bébé", image: "/images/enfants-bebe.jpg", emoji: "🍼" },
+  { id: "autres", label: "Autres", more: true },
 ];
 
-function Tile({ category }) {
+function Thumb({ category }) {
   const [failed, setFailed] = useState(false);
-  return (
-    <span className="categories__tile" style={{ background: category.color }} aria-hidden="true">
-      {category.image && !failed ? (
-        <img src={category.image} alt="" onError={() => setFailed(true)} />
-      ) : (
-        <span className="categories__emoji">{category.emoji}</span>
-      )}
-    </span>
-  );
+
+  if (category.more) {
+    return (
+      <span className="cat__more" aria-hidden="true">
+        <MoreHorizontal size={22} />
+      </span>
+    );
+  }
+  if (category.image && !failed) {
+    return <img src={category.image} alt="" onError={() => setFailed(true)} />;
+  }
+  return <span className="cat__emoji" aria-hidden="true">{category.emoji}</span>;
 }
 
 export default function Categories({
   categories = DEFAULT_CATEGORIES,
-  onSelect = () => {}, // reçoit l'id de la catégorie (ou null si on désélectionne)
+  onSelect = () => {}, // id de la catégorie (ou null si on désélectionne)
+  onSeeAll = () => {},
 }) {
   const [activeId, setActiveId] = useState(null);
 
@@ -38,22 +48,27 @@ export default function Categories({
   };
 
   return (
-    <nav className="categories" aria-label="Catégories">
-      <ul>
+    <section aria-labelledby="cat-title">
+      <SectionHeader
+        title="Parcourez nos catégories"
+        linkLabel="Voir toutes les catégories"
+        onLinkClick={onSeeAll}
+      />
+      <ul className="cat__list">
         {categories.map((c) => (
           <li key={c.id}>
             <button
               type="button"
-              className={c.id === activeId ? "is-active" : ""}
+              className={`cat${c.id === activeId ? " is-active" : ""}`}
               aria-pressed={c.id === activeId}
               onClick={() => handleClick(c.id)}
             >
-              <Tile category={c} />
-              <span className="categories__label">{c.label}</span>
+              <span className="cat__thumb"><Thumb category={c} /></span>
+              <span className="cat__label">{c.label}</span>
             </button>
           </li>
         ))}
       </ul>
-    </nav>
+    </section>
   );
 }

@@ -3,6 +3,7 @@ import "./styles/layout.css";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Topbar from "./components/Topbar/Topbar";
 import Hero from "./components/Hero/Hero";
+import Categories from "./components/Categories/Categories";
 
 export default function App() {
   return (
@@ -21,7 +22,11 @@ export default function App() {
             onSearch={(p) => console.log("Recherche :", p)}
             onLearnMore={() => console.log("En savoir plus")}
           />
-          {/* Étape 3 : catégories · Étape 4 : meilleures offres · Étape 5 : réassurance + newsletter */}
+          <Categories
+            onSelect={(id) => console.log("Catégorie :", id)}
+            onSeeAll={() => console.log("Toutes les catégories")}
+          />
+          {/* Étape 4 : meilleures offres · Étape 5 : réassurance + newsletter */}
         </main>
       </div>
     </div>
