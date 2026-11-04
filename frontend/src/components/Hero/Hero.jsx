@@ -1,78 +1,107 @@
 import { useState } from "react";
+import { Calendar, MapPin, ChevronDown } from "lucide-react";
+import WhyFilko from "../WhyFilko/WhyFilko";
 import "./Hero.css";
 
-const CalendarIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-    <rect x="3" y="5" width="18" height="16" rx="3" /><path d="M3 10h18M8 3v4M16 3v4" />
-  </svg>
-);
-
-const PinIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-    <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" />
-  </svg>
-);
+const DEFAULT_CATEGORIES = [
+  { id: "all", label: "Toutes les catégories" },
+  { id: "immobilier", label: "Immobilier" },
+  { id: "mobilite", label: "Mobilité" },
+  { id: "outils-pro", label: "Outils Pro" },
+  { id: "evenementiel", label: "Événementiel" },
+  { id: "high-tech", label: "High-Tech" },
+  { id: "camping", label: "Camping" },
+  { id: "maison-jardin", label: "Maison & Jardin" },
+  { id: "sports-loisirs", label: "Sports & Loisirs" },
+  { id: "enfants-bebe", label: "Enfants & Bébé" },
+];
 
 export default function Hero({
   totalItems = "10 000",
-  image = "/images/hero-voiture.png", // grande image à droite (fond transparent conseillé)
-  onSearch = () => {}, // reçoit { dates, location } (touche Entrée dans un champ)
+  image = "/images/hero-illustration.jpg",
+  categories = DEFAULT_CATEGORIES,
+  onSearch = () => {}, // reçoit { dates, location, category }
+  onLearnMore = () => {},
 }) {
   const [dates, setDates] = useState("");
   const [location, setLocation] = useState("");
+  const [category, setCategory] = useState(categories[0].id);
   const [imageFailed, setImageFailed] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch({ dates, location });
+    onSearch({ dates, location, category });
   };
 
   return (
     <section className="hero">
-      <div className="hero__inner">
-        <form className="hero__content" onSubmit={handleSubmit}>
-          <h1 className="hero__title">
-            Trouvez tout pour la location.
-            <br />+{totalItems} articles.
-          </h1>
+      <div className="hero__main">
+        <div className="hero__intro">
+          <div className="hero__text">
+            <h1 className="hero__title">
+              Trouvez tout pour
+              <span> la location...</span>
+            </h1>
+            <p className="hero__count">+{totalItems} articles disponibles.</p>
+            <p className="hero__sub">Louez facilement ce qu'il vous faut, quand il vous faut.</p>
+          </div>
 
-          <p className="hero__label">Que voulez-vous louer ?</p>
+          {!imageFailed && (
+            <img
+              className="hero__image"
+              src={image}
+              alt=""
+              onError={() => setImageFailed(true)}
+            />
+          )}
+        </div>
 
-          <div className="hero__fields">
-            <label className="field">
+        <form className="searchbar" onSubmit={handleSubmit}>
+          <label className="searchbar__seg">
+            <Calendar size={18} aria-hidden="true" />
+            <span className="searchbar__body">
+              <span className="searchbar__label">Dates</span>
               <input
                 type="text"
-                placeholder="Dates"
+                placeholder="Sélectionner"
                 value={dates}
                 onChange={(e) => setDates(e.target.value)}
                 onFocus={(e) => (e.target.type = "date")}
                 onBlur={(e) => { if (!e.target.value) e.target.type = "text"; }}
-                aria-label="Dates"
               />
-              <CalendarIcon />
-            </label>
-            <label className="field">
+            </span>
+          </label>
+
+          <label className="searchbar__seg">
+            <span className="searchbar__body">
+              <span className="searchbar__label">Lieu</span>
               <input
                 type="text"
-                placeholder="Lieu"
+                placeholder="Où ça ?"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                aria-label="Lieu"
               />
-              <PinIcon />
-            </label>
-          </div>
-          <button type="submit" hidden>Rechercher</button>
-        </form>
+            </span>
+            <MapPin size={18} aria-hidden="true" />
+          </label>
 
-        <div className="hero__image" aria-hidden="true">
-          {imageFailed ? (
-            <span>🚗</span>
-          ) : (
-            <img src={image} alt="" onError={() => setImageFailed(true)} />
-          )}
-        </div>
+          <label className="searchbar__seg">
+            <span className="searchbar__body">
+              <span className="searchbar__label">Catégorie</span>
+              <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>{c.label}</option>
+                ))}
+              </select>
+            </span>
+            <ChevronDown size={18} aria-hidden="true" />
+          </label>
+
+          <button type="submit" className="searchbar__btn">Rechercher</button>
+        </form>
       </div>
+
+      <WhyFilko onLearnMore={onLearnMore} />
     </section>
   );
 }

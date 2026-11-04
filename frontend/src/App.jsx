@@ -2,6 +2,7 @@ import "./styles/tokens.css";
 import "./styles/layout.css";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Topbar from "./components/Topbar/Topbar";
+import Hero from "./components/Hero/Hero";
 
 export default function App() {
   return (
@@ -16,7 +17,10 @@ export default function App() {
         />
 
         <main className="app__content">
-          {/* Étape 2 : Hero + barre Dates/Lieu/Catégorie + carte "Pourquoi louer avec Filko ?" */}
+          <Hero
+            onSearch={(p) => console.log("Recherche :", p)}
+            onLearnMore={() => console.log("En savoir plus")}
+          />
           {/* Étape 3 : catégories · Étape 4 : meilleures offres · Étape 5 : réassurance + newsletter */}
         </main>
       </div>
