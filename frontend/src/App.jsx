@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Topbar from "./components/Topbar/Topbar";
 import Hero from "./components/Hero/Hero";
 import Categories from "./components/Categories/Categories";
+import BestOffers from "./components/BestOffers/BestOffers";
 
 export default function App() {
   return (
@@ -26,7 +27,11 @@ export default function App() {
             onSelect={(id) => console.log("Catégorie :", id)}
             onSeeAll={() => console.log("Toutes les catégories")}
           />
-          {/* Étape 4 : meilleures offres · Étape 5 : réassurance + newsletter */}
+          <BestOffers
+            onSeeAll={() => console.log("Toutes les offres")}
+            onOfferClick={(offer) => console.log("Offre sélectionnée :", offer)}
+          />
+          {/* Étape suivante : réassurance + newsletter */}
         </main>
       </div>
     </div>

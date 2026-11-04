@@ -1,49 +1,81 @@
 import { useState } from "react";
+import { Heart, Star, MapPin } from "lucide-react";
 import "./OfferCard.css";
 
-// Carte réutilisable (Meilleures Offres + résultats de recherche)
-// offer = { id, title, image?, emoji?, features: [{ label, emoji? }], price, unit? }
 export default function OfferCard({
   offer,
   onReserve = () => {},
-  onToggleFavorite = () => {}, // (id, isFavorite)
+  onToggleFavorite = () => {},
 }) {
-  const [fav, setFav] = useState(Boolean(offer.favorite));
-  const { title, image, emoji, features = [], price, unit = "/jour" } = offer;
+  const [favorite, setFavorite] = useState(Boolean(offer.favorite));
+  const [imageFailed, setImageFailed] = useState(false);
+
+  const toggleFavorite = () => {
+    const next = !favorite;
+    setFavorite(next);
+    onToggleFavorite(offer.id, next);
+  };
 
   return (
     <article className="offer">
+      {offer.badge && (
+        <span className={`offer__badge offer__badge--${offer.badgeType || "popular"}`}>
+          {offer.badge}
+        </span>
+      )}
+
       <button
         type="button"
-        className={`offer__fav${fav ? " is-on" : ""}`}
-        aria-pressed={fav}
-        aria-label={fav ? "Retirer des favoris" : "Ajouter aux favoris"}
-        onClick={() => { setFav(!fav); onToggleFavorite(offer.id, !fav); }}
+        className={`offer__fav${favorite ? " is-on" : ""}`}
+        aria-label={favorite ? "Retirer des favoris" : "Ajouter aux favoris"}
+        aria-pressed={favorite}
+        onClick={toggleFavorite}
       >
-        {fav ? "♥" : "♡"}
+        <Heart size={17} fill={favorite ? "currentColor" : "none"} />
       </button>
 
-      <div className="offer__media">
-        {image ? <img src={image} alt={title} /> : <span aria-hidden="true">{emoji}</span>}
-      </div>
+      <button
+        type="button"
+        className="offer__image-button"
+        onClick={() => onReserve(offer)}
+        aria-label={`Voir ${offer.title}`}
+      >
+        <div className="offer__media">
+          {offer.image && !imageFailed ? (
+            <img
+              src={offer.image}
+              alt={offer.title}
+              loading="lazy"
+              onError={() => setImageFailed(true)}
+            />
+          ) : (
+            <span className="offer__placeholder" aria-hidden="true">
+              {offer.emoji || "📦"}
+            </span>
+          )}
+        </div>
+      </button>
 
-      <h3 className="offer__title">{title}</h3>
-
-      <ul className="offer__features">
-        {features.map((f) => (
-          <li key={f.label}>
-            <span aria-hidden="true">{f.emoji ?? "•"}</span> {f.label}
-          </li>
-        ))}
-      </ul>
-
-      <div className="offer__footer">
+      <div className="offer__content">
+        <h3 className="offer__title">{offer.title}</h3>
         <p className="offer__price">
-          €{price} <span>{unit}</span>
+          {offer.price} €<span> /jour</span>
+          {offer.oldPrice && <del>{offer.oldPrice} €</del>}
         </p>
-        <button type="button" className="offer__btn" onClick={() => onReserve(offer)}>
-          Réserver
-        </button>
+
+        <div className="offer__meta">
+          <span className="offer__rating">
+            <Star size={13} fill="currentColor" />
+            {offer.rating ?? "Nouveau"}
+            {offer.reviews != null && <span> ({offer.reviews})</span>}
+          </span>
+          {offer.city && (
+            <span className="offer__city">
+              <MapPin size={12} />
+              {offer.city}
+            </span>
+          )}
+        </div>
       </div>
     </article>
   );

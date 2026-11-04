@@ -1,100 +1,34 @@
-import { useState } from "react";
 import OfferCard from "../OfferCard/OfferCard";
+import SectionHeader from "../SectionHeader/SectionHeader";
 import "./BestOffers.css";
 
-const DEFAULT_TABS = [
-  { id: "populaire", label: "Populaire" },
-  { id: "logements", label: "Logements" },
-  { id: "mobilite", label: "Mobilité" },
-  { id: "outils-pro", label: "Outils Pro" },
-  { id: "tech-evenement", label: "Tech Événement" },
-  { id: "camping", label: "Camping" },
-];
-
-// Données d'exemple : à remplacer par l'API.
-// `category` sert au filtrage par onglet ; `popular` alimente l'onglet "Populaire".
+// Place les photos dans frontend/public/images_0/
 const DEFAULT_OFFERS = [
-  {
-    id: 1, category: "logements", popular: true, emoji: "🏢", image: "/images/immobilier.jpg",
-    title: "Studio Centre-Ville", price: 250,
-    features: [
-      { label: "1 Chambre", emoji: "🛏️" },
-      { label: "SDB", emoji: "🚿" },
-      { label: "Proche Tram", emoji: "📍" },
-    ],
-  },
-  {
-    id: 2, category: "mobilite", popular: true, emoji: "🚲", image: "/images/velo.jpg",
-    title: "Vélo Électrique", price: 45,
-    features: [
-      { label: "Autonomie 80km", emoji: "🔋" },
-      { label: "Antivol inclus", emoji: "🔒" },
-    ],
-  },
-  {
-    id: 3, category: "outils-pro", popular: true, emoji: "🔨", image: "/images/perforateur.jpg",
-    title: "Marteau-Piqueur Pro", price: 90,
-    features: [
-      { label: "Puissance Industrielle", emoji: "⚡" },
-      { label: "Sac de transport", emoji: "🎒" },
-    ],
-  },
-  {
-    id: 4, category: "tech-evenement", popular: true, emoji: "🎥", image: "/images/camera-pro.jpg",
-    title: "Caméra 4K Pro", price: 180,
-    features: [
-      { label: "Objectif interchangeable", emoji: "📷" },
-      { label: "Manuel", emoji: "✏️" },
-    ],
-  },
+  { id: 1, badge: "Populaire", badgeType: "popular", title: "Perceuse Sans Fil Pro", image: "/images_0/perceuse.jpg", price: 15, rating: 4.8, reviews: 128, city: "Paris, France" },
+  { id: 2, badge: "Top noté", badgeType: "top", title: "Peugeot 208 - 2023", image: "/images_0/voiture.jpg", price: 45, rating: 4.9, reviews: 89, city: "Lyon, France" },
+  { id: 3, badge: "Promo", badgeType: "promo", title: "Tente 4 Places", image: "/images_0/tente.jpg", price: 10, oldPrice: 16, rating: 4.6, reviews: 64, city: "Bordeaux, France" },
+  { id: 4, badge: "Nouveau", badgeType: "new", title: "Canon EOS 250D", image: "/images_0/appareil-photo.jpg", price: 20, rating: 4.7, reviews: 93, city: "Paris, France" },
+  { id: 5, badge: "Populaire", badgeType: "popular", title: "Enceinte Sono 1000W", image: "/images_0/enceinte.jpg", price: 30, rating: 4.5, reviews: 41, city: "Marseille, France" },
+  { id: 6, badge: "Promo", badgeType: "promo", title: "Vélo Électrique", image: "/images_0/velo.jpg", price: 25, oldPrice: 36, rating: 4.8, reviews: 76, city: "Nice, France" },
 ];
 
 export default function BestOffers({
-  tabs = DEFAULT_TABS,
   offers = DEFAULT_OFFERS,
-  onTabChange = () => {}, // utile si le back filtre côté serveur
-  onReserve = () => {},
+  onSeeAll = () => {},
+  onOfferClick = () => {},
 }) {
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
-
-  const handleTab = (id) => {
-    setActiveTab(id);
-    onTabChange(id);
-  };
-
-  // Filtrage côté front (peut être retiré si l'API renvoie déjà la bonne liste)
-  const visible = offers.filter((o) =>
-    activeTab === tabs[0].id ? o.popular : o.category === activeTab
-  );
-
   return (
-    <section className="best">
-      <h2 className="best__title">Nos Meilleures Offres</h2>
-
-      <div className="best__tabs" role="tablist">
-        {tabs.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            role="tab"
-            aria-selected={t.id === activeTab}
-            className={t.id === activeTab ? "is-active" : ""}
-            onClick={() => handleTab(t.id)}
-          >
-            {t.label}
-          </button>
+    <section className="best" aria-labelledby="best-title">
+      <SectionHeader
+        title="Nos meilleures offres"
+        linkLabel="Voir toutes les offres"
+        onLinkClick={onSeeAll}
+      />
+      <div className="best__grid">
+        {offers.map((offer) => (
+          <OfferCard key={offer.id} offer={offer} onReserve={onOfferClick} />
         ))}
       </div>
-
-      {visible.length ? (
-        <div className="best__grid">
-          {visible.map((o) => (
-            <OfferCard key={o.id} offer={o} onReserve={onReserve} />
-          ))}
-        </div>
-      ) : (
-        <p className="best__empty">Aucune offre dans cette catégorie pour le moment.</p>
-      )}
     </section>
   );
 }
