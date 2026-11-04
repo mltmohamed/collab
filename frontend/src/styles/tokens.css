@@ -4,7 +4,7 @@
 */
 :root {
   /* Couleurs (image 2) */
-  --color-primary: #fdbd5d;
+  --color-primary: #ff8a00; /* orange Filko (ancien : #fdbd5d) */
   --color-dark: #000000;
   --color-light: #ffffff;
 
@@ -20,6 +20,8 @@
   --space-3: 24px;
   --space-4: 40px;
   --container: 1120px;
+  --sidebar-w: 248px;
+  --border: #ececf0;
 }
 
 *, *::before, *::after { box-sizing: border-box; }

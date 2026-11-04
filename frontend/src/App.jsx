@@ -1,23 +1,25 @@
 import "./styles/tokens.css";
-import Header from "./components/Header/Header";
-import Hero from "./components/Hero/Hero";
-import FilterBar from "./components/FilterBar/FilterBar";
-import Categories from "./components/Categories/Categories";
-import BestOffers from "./components/BestOffers/BestOffers";
-import ResultsGrid from "./components/ResultsGrid/ResultsGrid";
+import "./styles/layout.css";
+import Sidebar from "./components/Sidebar/Sidebar";
+import Topbar from "./components/Topbar/Topbar";
 
 export default function App() {
   return (
-    <>
-      <Header />
-      <Hero onSearch={(params) => console.log("Recherche :", params)} />
-      <FilterBar onFilter={(kw) => console.log("Mot-clé :", kw)} />
-      <Categories onSelect={(id) => console.log("Catégorie :", id)} />
-      <BestOffers onReserve={(offer) => console.log("Réserver :", offer)} />
-      <ResultsGrid
-        onToggleFavorite={(id, fav) => console.log("Favori :", id, fav)}
-        onReserve={(item) => console.log("Réserver :", item)}
-      />
-    </>
+    <div className="app">
+      <Sidebar activePath="/" onUpgrade={() => console.log("Filko Plus")} />
+
+      <div className="app__main">
+        <Topbar
+          onSearch={(p) => console.log("Recherche :", p)}
+          onLocationClick={() => console.log("Choisir le lieu")}
+          onLogin={() => console.log("Connexion")}
+        />
+
+        <main className="app__content">
+          {/* Étape 2 : Hero + barre Dates/Lieu/Catégorie + carte "Pourquoi louer avec Filko ?" */}
+          {/* Étape 3 : catégories · Étape 4 : meilleures offres · Étape 5 : réassurance + newsletter */}
+        </main>
+      </div>
+    </div>
   );
 }
