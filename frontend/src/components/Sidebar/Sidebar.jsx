@@ -1,7 +1,9 @@
+
 import {
   Home, LayoutGrid, Megaphone, Heart, Tag, Mail, CalendarCheck,
   Calendar, Star, Bell, Settings, CircleHelp, ArrowUpRight,
 } from "lucide-react";
+
 import "./Sidebar.css";
 
 const MAIN_LINKS = [
@@ -23,14 +25,20 @@ const SECONDARY_LINKS = [
   { label: "Aide & FAQ", href: "/aide", icon: CircleHelp },
 ];
 
-function NavList({ links, activePath }) {
+function NavList({ links, activePath, onNavigate }) {
   return (
     <ul>
       {links.map(({ label, href, icon: Icon }) => {
         const active = href === activePath;
+
         return (
           <li key={href}>
-            <a href={href} className={active ? "is-active" : ""} aria-current={active ? "page" : undefined}>
+            <a
+              href={href}
+              className={active ? "is-active" : ""}
+              aria-current={active ? "page" : undefined}
+              onClick={onNavigate}
+            >
               <Icon size={18} strokeWidth={2} aria-hidden="true" />
               {label}
             </a>
@@ -45,11 +53,14 @@ export default function Sidebar({
   activePath = "/",
   mainLinks = MAIN_LINKS,
   secondaryLinks = SECONDARY_LINKS,
-  onUpgrade = () => {}, // "Découvrir Plus"
+  isOpen = false,
+  onClose = () => {},
+  onUpgrade = () => {},
 }) {
   return (
-    <aside className="sidebar">
-      <a href="/" className="sidebar__logo" aria-label="Filko, accueil">
+    <aside className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
+
+      <a href="/" className="sidebar__logo" onClick={onClose}>
         <svg width="52" height="30" viewBox="0 0 52 30" aria-hidden="true">
           <rect width="52" height="30" rx="15" fill="var(--color-dark)" />
           <rect x="7" y="7" width="16" height="16" rx="8" fill="var(--color-primary)" />
@@ -59,19 +70,31 @@ export default function Sidebar({
       </a>
 
       <nav className="sidebar__nav" aria-label="Navigation principale">
-        <NavList links={mainLinks} activePath={activePath} />
+        <NavList
+          links={mainLinks}
+          activePath={activePath}
+          onNavigate={onClose}
+        />
+
         <hr />
-        <NavList links={secondaryLinks} activePath={activePath} />
+
+        <NavList
+          links={secondaryLinks}
+          activePath={activePath}
+          onNavigate={onClose}
+        />
       </nav>
 
       <div className="sidebar__plus">
         <span className="sidebar__plus-icon" aria-hidden="true">
           <Star size={26} fill="currentColor" />
         </span>
+
         <h2>Passez à Filko Plus</h2>
         <p>Plus d'avantages, plus de visibilité.</p>
+
         <button type="button" onClick={onUpgrade}>
-          Découvrir Plus <ArrowUpRight size={16} aria-hidden="true" />
+          Découvrir Plus <ArrowUpRight size={16} />
         </button>
       </div>
     </aside>

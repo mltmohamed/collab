@@ -1,4 +1,7 @@
 
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
+
 import "./styles/tokens.css";
 import "./styles/layout.css";
 
@@ -11,38 +14,75 @@ import TrustBar from "./components/TrustBar/TrustBar";
 import Newsletter from "./components/Newsletter/Newsletter";
 
 export default function App() {
-  // Gestion de la recherche
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Fermer le menu avec la touche Échap
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   const handleSearch = (data) => {
     console.log("Recherche :", data);
   };
 
-  // Sélection d'une catégorie
   const handleCategorySelect = (id) => {
     console.log("Catégorie sélectionnée :", id);
   };
 
-  // Sélection d'une offre
   const handleOfferClick = (offer) => {
     console.log("Offre sélectionnée :", offer);
   };
 
-  // Inscription à la newsletter
   const handleSubscribe = async (email) => {
     console.log("Inscription newsletter :", email);
   };
 
   return (
-    <div className="app">
+    <div className={`app ${menuOpen ? "menu-open" : ""}`}>
+
+      {/* Fond sombre sur mobile */}
+      {menuOpen && (
+        <button
+          className="sidebar-overlay"
+          onClick={() => setMenuOpen(false)}
+          aria-label="Fermer le menu"
+        />
+      )}
 
       {/* Menu latéral */}
       <Sidebar
         activePath="/"
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
         onUpgrade={() => console.log("Filko Plus")}
       />
 
       <div className="app__main">
 
-        {/* Barre supérieure */}
+        {/* En-tête mobile avec bouton burger */}
+        <div className="mobile-header">
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? <X size={25} /> : <Menu size={25} />}
+          </button>
+
+          <span className="mobile-header__brand">Filko</span>
+        </div>
+
         <Topbar
           onSearch={handleSearch}
           onLocationClick={() => console.log("Choisir le lieu")}
@@ -51,25 +91,21 @@ export default function App() {
 
         <main className="app__content">
 
-          {/* Présentation */}
           <Hero
             onSearch={handleSearch}
             onLearnMore={() => console.log("En savoir plus")}
           />
 
-          {/* Catégories */}
           <Categories
             onSelect={handleCategorySelect}
             onSeeAll={() => console.log("Toutes les catégories")}
           />
 
-          {/* Meilleures offres */}
           <BestOffers
             onSeeAll={() => console.log("Toutes les offres")}
             onOfferClick={handleOfferClick}
           />
 
-          {/* Réassurance et newsletter */}
           <section className="home-bottom">
             <TrustBar />
             <Newsletter onSubscribe={handleSubscribe} />
